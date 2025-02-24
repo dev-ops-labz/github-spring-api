@@ -67,4 +67,17 @@ public class GithubApiService {
                 .collectList()
                 .block();
     }
+
+    public List<GithubApiResponse> getOrganizationRepos(String org) {
+        String accessToken = getAccessToken();
+        return getWebClient("https://api.github.com")
+                .get()
+                .uri(uriBuilder -> uriBuilder.path("/orgs/{org}/repos")
+                        .build(org))
+                .header("Authorization", "Bearer "+accessToken)
+                .retrieve()
+                .bodyToFlux(GithubApiResponse.class)
+                .collectList()
+                .block();
+    }
 }

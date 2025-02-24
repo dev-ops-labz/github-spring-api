@@ -32,4 +32,9 @@ public class GithubApiController {
     public List<BranchListResponse> getBranches(@PathVariable("user") String user, @PathVariable("repo") String repo) {
         return service.getBranches(user, repo);
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/org/{org}/repos")
+    public List<GithubApiResponse> getBranches(@PathVariable("org") String org) {
+        return service.getOrganizationRepos(org);
+    }
 }
