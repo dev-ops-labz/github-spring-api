@@ -80,4 +80,18 @@ public class GithubApiService {
                 .collectList()
                 .block();
     }
+
+    public List<GithubApiResponse> createOrganizationRepo(String org, RepositoryRequest repositoryRequest) {
+        String accessToken = getAccessToken();
+        return getWebClient("https://api.github.com")
+                .post()
+                .uri(uriBuilder -> uriBuilder.path("/orgs/{org}/repos")
+                        .build(org))
+                .header("Authorization", "Bearer " + accessToken)
+                .body(repositoryRequest, RepositoryRequest.class)
+                .retrieve()
+                .bodyToFlux(GithubApiResponse.class)
+                .collectList()
+                .block();
+    }
 }

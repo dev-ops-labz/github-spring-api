@@ -37,4 +37,9 @@ public class GithubApiController {
     public List<GithubApiResponse> getBranches(@PathVariable("org") String org) {
         return service.getOrganizationRepos(org);
     }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/orgs/{org}/repos")
+    public List<GithubApiResponse> getBranches(@PathVariable("org") String org, @RequestBody RepositoryRequest repositoryRequest) {
+        return service.createOrganizationRepo(org, repositoryRequest);
+    }
 }
