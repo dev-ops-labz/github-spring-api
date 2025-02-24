@@ -1,0 +1,54 @@
+name: List Organization Repositories and Commits
+
+on:
+  workflow_dispatch:
+    inputs:
+      org-name:
+        description: "Enter organization name"
+        required: true
+        type: string
+
+jobs:
+  list-commits:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          
+      - name: List Repositories and Fetch Commits
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const org = "${{ github.event.inputs.org_name }}"; // Replace with your organization name
+            const perPage = 5; // Adjust the number of repos per page if needed
+
+            // Fetch organization repositories
+            const repos = await github.paginate(
+              github.rest.repos.listForOrg, { org, per_page: perPage }
+            );
+
+            console.log(`📌 Found ${repos.length} repositories in ${org}`);
+
+            for (const repo of repos) {
+              console.log(`🔹 Fetching commits for: ${repo.name}`);
+
+              // Fetch the latest commits from each repo
+              const commits = await github.rest.repos.listCommits({
+                owner: org,
+                repo: repo.name,
+                per_page: 5 // Fetch the last 5 commits
+              });
+
+              if (commits.data.length === 0) {
+                console.log(`⚠️ No commits found for ${repo.name}`);
+              } else {
+                commits.data.forEach(commit => {
+                  console.log(`✅ ${repo.name}: ${commit.commit.message} by ${commit.commit.author.name}`);
+                });
+              }
+            }
