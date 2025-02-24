@@ -3,7 +3,7 @@ name: List Organization Repositories and Commits
 on:
   workflow_dispatch:
     inputs:
-      org-name:
+      org_name:
         description: "Enter organization name"
         required: true
         type: string
