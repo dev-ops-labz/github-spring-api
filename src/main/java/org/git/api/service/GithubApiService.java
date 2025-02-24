@@ -9,6 +9,7 @@ import org.git.api.model.response.CommitsResponse;
 import org.git.api.model.response.GithubApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class GithubApiService {
                 .uri(uriBuilder -> uriBuilder.path("/orgs/{org}/repos")
                         .build(org))
                 .header("Authorization", "Bearer " + accessToken)
-                .body(repositoryRequest, RepositoryRequest.class)
+                .body(Mono.just(repositoryRequest), RepositoryRequest.class)
                 .retrieve()
                 .bodyToFlux(GithubApiResponse.class)
                 .collectList()
