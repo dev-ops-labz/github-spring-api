@@ -2,7 +2,11 @@ name: Create GitHub Issue
 
 on:
   workflow_dispatch: 
-
+    inputs:
+       title:
+        description: "Issue title"
+        required: true
+        type: string 
 jobs:
   create_issue:
     runs-on: ubuntu-latest
@@ -23,7 +27,7 @@ jobs:
           github-token: ${{ steps.app-token.outputs.token }}
           script: |
             const { owner, repo } = context.repo;
-            const title = "🚀 Automated Issue Created via GitHub Actions";
+            const title = ${{ inputs.title }};
             const body = "This is an automatically created issue. Please review it!";
             
             const issues = await github.rest.issues.listForRepo({ owner, repo, state: "open" });
