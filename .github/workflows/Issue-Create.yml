@@ -27,7 +27,7 @@ jobs:
           github-token: ${{ steps.app-token.outputs.token }}
           script: |
             const { owner, repo } = context.repo;
-            const title = ${{ inputs.title }};
+            const title = "${{ github.event.inputs.title }}";
             const body = "This is an automatically created issue. Please review it!";
             
             const issues = await github.rest.issues.listForRepo({ owner, repo, state: "open" });
