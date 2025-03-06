@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-api-deployment
+  labels:
+    app: github-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: github-api
+  template:
+    metadata:
+      labels:
+        app: github-api
+    spec:
+      containers:
+        - name: github-api-container
+          image: dhananjay01/github-api:latest
+          ports:
+            - containerPort: 8082
+      imagePullSecrets:
+        - name: my-dockerhub-secret
