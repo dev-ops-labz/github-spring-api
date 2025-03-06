@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: github-api-container
-          image: dhananjay01/github-api:latest
+          image: dhananjay01/github-app:latest
           ports:
             - containerPort: 8082
       imagePullSecrets:
