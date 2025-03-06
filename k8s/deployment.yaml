@@ -18,6 +18,6 @@ spec:
         - name: github-api-container
           image: dhananjay01/github-app:latest
           ports:
-            - containerPort: 8082
+            - containerPort: 8088
       imagePullSecrets:
         - name: my-dockerhub-secret
