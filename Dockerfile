@@ -1,4 +1,4 @@
-FROM openjdk:21
+FROM openjdk:23
 LABEL authors="ddhananjay"
 
 RUN mkdir /home/app
