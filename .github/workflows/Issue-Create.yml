@@ -9,7 +9,7 @@ on:
         type: string 
 jobs:
   create_issue:
-    runs-on: 6c26e4d9c371
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
